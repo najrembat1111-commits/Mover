@@ -1,0 +1,35 @@
+-- 1. Ensure the game is fully loaded
+if not game:IsLoaded() then
+    game.Loaded:Wait()
+end
+
+local VIM = game:GetService("VirtualInputManager")
+local camera = workspace.CurrentCamera
+
+-- 2. Define Coordinates
+-- Position A: Slightly left and lower center
+local x1 = (camera.ViewportSize.X / 2) - 50
+local y1 = (camera.ViewportSize.Y / 2) + 50 
+
+-- Position B: Top area, adjusted slightly UP (Changed from 100 to 70)
+local x2 = camera.ViewportSize.X - 350
+local y2 = 70 
+
+-- 3. Short wait for UI stability
+task.wait(0.1)
+
+-- 4. PRESS AND HOLD First Click
+VIM:SendMouseButtonEvent(x1, y1, 0, true, game, 1) 
+print("Holding first click...")
+
+-- 5. Execute Second Click (Press and Release) while first is still held
+task.wait(0.02)
+VIM:SendMouseButtonEvent(x2, y2, 0, true, game, 1)
+task.wait(0.04)
+VIM:SendMouseButtonEvent(x2, y2, 0, false, game, 1)
+
+-- 6. RELEASE First Click
+task.wait(0.1) 
+VIM:SendMouseButtonEvent(x1, y1, 0, false, game, 1)
+
+print("Sequence complete. Second click moved slightly up.")
